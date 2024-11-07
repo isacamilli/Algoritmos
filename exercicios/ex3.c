@@ -15,7 +15,7 @@ int main(){
 
   int res = mult(a, b);
     
-  printf ("O resultado da multiplição entre %d e %d é %d", a, b, res);
+  printf ("O resultado da multiplição entre %d e %d é %d\n", a, b, res);
   
   return 0;
 }
