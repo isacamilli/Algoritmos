@@ -1,30 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct Lista {
     struct Lista *proximo;
-    int nome_paciente;
+    char nome_paciente[50];
     int tipo_paciente;
 };
 
 struct Lista *inicio = NULL;
 
-void adicionar_paciente(){
+void adicionar_paciente(int tipo_paciente, char* nome_paciente){
     struct Lista *novo_paciente = (struct Lista *)malloc(sizeof(struct Lista));
-    int nome_paciente, tipo_paciente;
-    printf("Nome do paciente: ");
-    scanf("%d", &nome_paciente);
-
-    printf("\n");
-
-    printf("O paciente é preferencial?\n");
-    printf("Sim (0) - Não (1)\n");
-    scanf("%d", tipo_paciente);
-
-    novo_paciente->tipo_paciente = tipo_paciente;
-    novo_paciente->nome_paciente = nome_paciente;
-    novo_paciente->proximo = inicio;
-    inicio = novo_paciente;
+    
+    if (inicio == NULL){
+        novo_paciente->tipo_paciente = tipo_paciente;
+        strcpy(novo_paciente->nome_paciente, nome_paciente);
+        novo_paciente->proximo = inicio;
+        inicio = novo_paciente;
+    }
+    else if (tipo_paciente == 0){
+        struct Lista *atual = 
+        while (/* condition */)
+        {
+            /* code */
+        }
+        
+    }
+    
 }
 
 int imprimir_menu()
@@ -43,3 +46,20 @@ int imprimir_menu()
 
     return escolha;
 }
+
+
+
+// int main(){
+
+//     int nome_paciente, tipo_paciente;
+//     printf("Nome do paciente: ");
+//     scanf("%d", &nome_paciente);
+
+//     printf("\n");
+
+//     printf("O paciente é preferencial?\n");
+//     printf("Sim (0) - Não (1)\n");
+//     scanf("%d", tipo_paciente);
+
+//     printf("\n");
+// }
