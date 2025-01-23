@@ -26,14 +26,14 @@ int remover_paciente(char* nome_paciente){
     int paciente_encontrado = 0;
 
     while (atual != NULL) {
-        if (strcmp(atual->nome_paciente, nome_paciente) == 0){ // corrigir comparação de strings
+        if (strcmp(atual->nome_paciente, nome_paciente) == 0){ 
             if (anterior == NULL){ 
                 struct Lista *temp = inicio;
                 inicio = inicio->proximo;
                 free(temp); 
 
-            } else{ // se nao for NULL
-                anterior->proximo = atual->proximo; // o proximo do anterior é o proximo do atual
+            } else{ 
+                anterior->proximo = atual->proximo;
                 free(atual);
             }
             paciente_encontrado = 1;
@@ -52,30 +52,47 @@ int atender_paciente(int preferenciais_atendidos){
     struct Lista *atual = inicio;
     struct Lista *anterior = NULL;
     int atendimento = 0;
+    char paciente_atender[50] = " ";
 
     if (atual != NULL){
         if (preferenciais_atendidos < 2 ){
             while (atual != NULL){
                 if (atual->tipo_paciente == 0){
-                    printf("Paciente preferencial %s está sendo atendido.\n", atual->nome_paciente);
-                    remover_paciente(atual->nome_paciente);
-                    atendimento++;
-                    break;
+                    strcpy(paciente_atender,atual->nome_paciente);
+                    atual = atual->proximo;
+                }
+                else{
+                    atual = atual->proximo;
                 }
             }
-            if (atendimento != 0){
+
+            if(paciente_atender!= " "){
+                printf("Paciente preferencial %s está sendo atendido.\n", paciente_atender);
+                remover_paciente(paciente_atender);
                 preferenciais_atendidos++;
             }
             else{
                 struct Lista *atual = inicio;
-                printf("Paciente normal %s está sendo atendido.\n", atual->nome_paciente);
-                remover_paciente(atual->nome_paciente);
+                while(atual != NULL){
+                    
+                    strcpy(paciente_atender,atual->nome_paciente);
+                    atual = atual->proximo;
+                }
+
+                printf("Paciente normal %s está sendo atendido.\n", paciente_atender);
+                remover_paciente(paciente_atender);
             }
         }
         else{
-            printf("Paciente normal %s está sendo atendido.\n", atual->nome_paciente);
-            remover_paciente(atual->nome_paciente);
-            preferenciais_atendidos = 0
+            while(atual != NULL){
+                    
+                    strcpy(paciente_atender,atual->nome_paciente);
+                    atual = atual->proximo;
+                }
+
+                printf("Paciente normal %s está sendo atendido.\n", paciente_atender);
+                remover_paciente(paciente_atender);
+            preferenciais_atendidos = 0;
         }
     }
     else{
@@ -129,6 +146,8 @@ int imprimir_menu()
     printf("5. Imprimir lista de pacientes\n");
     printf("0. Sair\n");
 
+    printf("\n");
+
     int escolha;
     scanf("%d", &escolha);
 
@@ -142,10 +161,13 @@ int main(){
     int escolha = 1;
     int num_pacientes = 0;
     char nome_paciente[50];
-    int preferenciais_atendidos;
+    int preferenciais_atendidos = 0;
+    char nome_remover[50];
 
     while (escolha != 0){
         escolha = imprimir_menu();
+
+        printf("\n");
 
         switch (escolha)
         {
@@ -168,7 +190,7 @@ int main(){
                     num_pacientes = 0;
                 }
                 else{
-                    printf("Atendimentos encerrados\n")
+                    printf("Atendimentos encerrados\n");
                 }
             }
 
@@ -195,7 +217,7 @@ int main(){
                     num_pacientes = 0;
                 }
                 else{
-                    printf("Atendimentos encerrados\n")
+                    printf("Atendimentos encerrados\n");
                 }
             }
 
@@ -207,9 +229,39 @@ int main(){
 
             preferenciais_atendidos = atender_paciente(preferenciais_atendidos);
 
+            printf("\n");
+
             break;
         
+        case 4:
+
+
+            printf("Nome do paciente que deseja remover: ");
+            scanf("%s", nome_remover);
+
+            int paciente_encontrado = remover_paciente(nome_remover);
+
+            if (paciente_encontrado == 1){
+                printf("Paciente removido com sucesso\n");
+                printf("\n");
+            }
+            else{
+                printf("Paciente não encontrado no sistema\n");
+                printf("\n");
+            }
+
+            break;
+
+        case 5:
+            imprimir_lista();
+            printf("\n");
+
+            break;
+
         default:
+
+            printf("Opção não disponivel\n");
+            printf("\n");
             break;
         }
 
